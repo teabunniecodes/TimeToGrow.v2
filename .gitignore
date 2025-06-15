@@ -1,0 +1,7 @@
+*.env
+.venv
+config.toml
+data_import/*.py
+*.db
+*.db-shm
+*.db-wal
