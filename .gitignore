@@ -7,6 +7,3 @@ data_import/*.py
 *.db-wal
 Recap.md
 */__pycache__
-
-# needs to be removed next time
-website/
