@@ -5,3 +5,8 @@ data_import/*.py
 *.db
 *.db-shm
 *.db-wal
+Recap.md
+*/__pycache__
+
+# needs to be removed next time
+website/
