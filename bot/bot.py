@@ -35,9 +35,18 @@ class Bot(commands.Bot):
             prefix="!",
         )
 
+    #Mysty - (ref notes in components.py)
+    # When you call Bot.load_module("component") on L 43 in bot.py
+    # It looks for a file named component.py
+    # If it finds it and it loads it (basically imports it) and calls async def setup() injecting itself (the bot) into that function
+    # So in setup you have access to the Bot which can be used to add your Component
+
+    # URL to give bot permissions 
+    # http://localhost:4343/oauth?scopes=user:read:chat%20user:write:chat%20user:bot%20channel:read:redemptions (This is wrong? remove redemptions?)
+    # http://localhost:4343/oauth?scopes=channel:bot%20channel:read:redemptions
     async def setup_hook(self) -> None:
         # Add our component which contains our commands...
-        await self.add_component(MyComponent(self))
+        await self.load_module("component")
 
         # Subscribe to read chat (eve4nt_message) from our channel as the bot...
         # This creates and opens a websocket to Twitch EventSub...
@@ -48,6 +57,12 @@ class Bot(commands.Bot):
         # For this example listen to our own stream...
         subscription = eventsub.StreamOnlineSubscription(broadcaster_user_id=OWNER_ID)
         await self.subscribe_websocket(payload=subscription)
+
+        #Subscribe and listen to channel points redemptions
+        redeems_add = eventsub.ChannelPointsRedeemAddSubscription(broadcaster_user_id=OWNER_ID, user_id=BOT_ID)
+        redeems_update  = eventsub.ChannelPointsRedeemUpdateSubscription(broadcaster_user_id=OWNER_ID, user_id=BOT_ID)
+        await self.subscribe_websocket(payload=redeems_add)
+        await self.subscribe_websocket(payload=redeems_update)
 
     async def add_token(self, token: str, refresh: str) -> twitchio.authentication.ValidateTokenPayload:
         # Make sure to call super() as it will add the tokens interally and return us some data...
@@ -86,62 +101,6 @@ class Bot(commands.Bot):
 
     async def event_ready(self) -> None:
         LOGGER.info("Successfully logged in as: %s", self.bot_id)
-
-
-class MyComponent(commands.Component):
-    def __init__(self, bot: Bot):
-        # Passing args is not required...
-        # We pass bot here as an example...
-        self.bot = bot
-
-    # We use a listener in our Component to display the messages received.
-    @commands.Component.listener()
-    async def event_message(self, payload: twitchio.ChatMessage) -> None:
-        print(f"[{payload.broadcaster.name}] - {payload.chatter.name}: {payload.text}")
-
-    @commands.command(aliases=["hello", "howdy", "hey"])
-    async def hi(self, ctx: commands.Context) -> None:
-        """Simple command that says hello!
-
-        !hi, !hello, !howdy, !hey
-        """
-        await ctx.reply(f"Hello {ctx.chatter.mention}!")
-
-    @commands.group(invoke_fallback=True)
-    async def socials(self, ctx: commands.Context) -> None:
-        """Group command for our social links.
-4
-        !socials
-        """
-        await ctx.send("discord.gg/..., youtube.com/..., twitch.tv/...")
-
-    @socials.command(name="discord")
-    async def socials_discord(self, ctx: commands.Context) -> None:
-        """Sub command of socials that sends only our discord invite.
-
-        !socials discord
-        """
-        await ctx.send("discord.gg/...")
-
-    @commands.command(aliases=["repeat"])
-    @commands.is_moderator()
-    async def say(self, ctx: commands.Context, *, content: str) -> None:
-        """Moderator only command which repeats back what you say.
-
-        !say hello world, !repeat I am cool LUL
-        """
-        await ctx.send(content)
-
-    @commands.Component.listener()
-    async def event_stream_online(self, payload: twitchio.StreamOnline) -> None:
-        # Event dispatched when a user goes live from the subscription we made above...
-
-        # Keep in mind we are assuming this is for ourselves
-        # others may not want your bot randomly sending messages...
-        await payload.broadcaster.send_message(
-            sender=self.bot.bot_id,
-            message=f"Hi... {payload.broadcaster}! You are live!",
-        )
 
 
 def main() -> None:
