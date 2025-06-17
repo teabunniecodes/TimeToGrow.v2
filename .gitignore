@@ -1,7 +1,7 @@
 *.env
 .venv
 config.toml
-data_import/*.py
+database/*.py
 *.db
 *.db-shm
 *.db-wal

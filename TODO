@@ -10,5 +10,8 @@ set up all the databases:
     successfully_wilted_table (currently this is for successful attacks that result in death of plant without any watering in between)
         attacker_id, plant_id, timestamp_wilted
 
-should we keep a tally of who kills who how many times?
+should we keep a tally of who kills who how many times? - can do this with COUNT()
+    have tiers for this? assasin, weedwhacker, shears, etc?
+track and tally the amount of times someone places 1-3? as well as uptime of plants, how many plants they have planted, avg of how long their plants live,  how many times plant dies, avg of deaths to plants planted?, how many times they water?
+    have tiers based on avgs?  Gold thumb, green thumb, brown thumb, black thumb?
 what other information do we need to keep track of?
