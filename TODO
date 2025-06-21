@@ -2,6 +2,7 @@ Set up database of plants to check if user has a plant or not
 start working on api.py and see how much I can reconnect to JS
 Set up bits redemptions
 
+DONE
 set up all the databases:
     plants_table (this will have the data counted at end of stream when user goes off line and inputted into a stats table)
         id, broadcaster_id, plant_id (can this just be the id?) timestamp_created, placement

@@ -1,9 +1,11 @@
 import twitchio
 from twitchio.ext import commands
 
+
 # Mysty - (ref notes in bot.py line 38) So in setup you have access to the Bot which can be used to add your Component
 async def setup(bot: commands.Bot) -> None:
     await bot.add_component(MyComponent(bot))
+
 
 class MyComponent(commands.Component):
     def __init__(self, bot: commands.Bot):
@@ -27,8 +29,8 @@ class MyComponent(commands.Component):
     @commands.group(invoke_fallback=True)
     async def socials(self, ctx: commands.Context) -> None:
         """Group command for our social links.
-4
-        !socials
+        4
+                !socials
         """
         await ctx.send("discord.gg/..., youtube.com/..., twitch.tv/...")
 
@@ -69,6 +71,7 @@ class MyComponent(commands.Component):
     reward_plant_id = "99c830d9-9edc-48ea-b6c0-6f2fb783d3cb"
     reward_attack_id = "c01fab00-196d-484e-84c7-6861097a8b6e"
     reward_water_id = "c0a30f3f-de19-4643-9e80-d37b1d283547"
+
     # sends a message when viewer plants a plant
     @commands.reward_command(id=reward_plant_id, invoke_when=commands.RewardStatus.fulfilled)
     async def plant(self, ctx: commands.Context) -> None:
@@ -89,8 +92,6 @@ class MyComponent(commands.Component):
     async def water(self, ctx: commands.Context) -> None:
         assert ctx.redemption
         await ctx.send(f"{ctx.author} redeemed {ctx.redemption.reward.title} and watered their plant!")
-    
-
 
         # plant plant id - 8ea1188c-a148-48ce-9792-5c646492b7cb
         # sabotage plant id - 53690dbe-554a-44e5-bca5-1f1d54af59c4
