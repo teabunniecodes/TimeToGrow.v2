@@ -7,3 +7,5 @@ database/*.py
 *.db-wal
 Recap.md
 */__pycache__
+
+pyproject.toml
