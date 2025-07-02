@@ -95,6 +95,7 @@ class MyComponent(commands.Component):
         assert ctx.redemption
         await ctx.send(f"{ctx.author} redeemed {ctx.redemption.reward.title} and watered their plant!")
 
+    # This is the ticker for the iteration checks to see if the plant state chan
     @routines.routine(delta=timedelta(seconds=10))
     async def ticker(self) -> None:
         print(self.ticker.current_iteration)

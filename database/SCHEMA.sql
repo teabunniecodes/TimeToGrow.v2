@@ -12,14 +12,15 @@ CREATE TABLE IF NOT EXISTS plants (
     plant_owner_id INT,
     time_planted TIMESTAMP WITH TIME ZONE NOT NULL,
     plant_status INT, -- 0 = Dead 1 = Alive (Or would True/False be better)
-    UNIQUE (broadcaster_id, plant_owner_id, plant_status)
+    UNIQUE (broadcaster_id, plant_owner_id, plant_status) -- Double check this - it's wrong? may need to do Check for plant status instead
 );
 
 -- -- Creates a table to keep track of the current placements for the alive plants in specific broadcasters stream
 -- CREATE TABLE IF NOT EXISTS placement (
---     plant_owner_id PRIMARY KEY UNIQUE REFERENCES plant(plant_owner_id),
+--     plant_owner_id INT PRIMARY KEY,
 --     placement INT,
---     CHECK (REFERENCES plant(plant_status) = 1),
+--     iteration INT,
+--     CHECK (REFERENCES plant(plant_status) = 1)
 -- );
 
 -- Creates an attacks table that keeps track of who attacks who
