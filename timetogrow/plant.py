@@ -3,7 +3,7 @@ from enum import Enum
 from typing import Literal, TypedDict
 
 
-# from database import Database
+# from .database import Database
 
 
 class PlantType(Enum):
