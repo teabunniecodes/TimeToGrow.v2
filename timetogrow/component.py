@@ -1,5 +1,6 @@
 import twitchio
-from twitchio.ext import commands
+from twitchio.ext import commands, routines
+from datetime import timedelta
 
 
 # Mysty - (ref notes in bot.py line 38) So in setup you have access to the Bot which can be used to add your Component
@@ -12,6 +13,7 @@ class MyComponent(commands.Component):
         # Passing args is not required...
         # We pass bot here as an example...
         self.bot = bot
+        self.ticker.start()
 
     # We use a listener in our Component to display the messages received.
     @commands.Component.listener()
@@ -93,6 +95,6 @@ class MyComponent(commands.Component):
         assert ctx.redemption
         await ctx.send(f"{ctx.author} redeemed {ctx.redemption.reward.title} and watered their plant!")
 
-        # plant plant id - 8ea1188c-a148-48ce-9792-5c646492b7cb
-        # sabotage plant id - 53690dbe-554a-44e5-bca5-1f1d54af59c4
-        # water plant id - 30f43bc9-7a56-4300-8a7e-9659e270073c
+    @routines.routine(delta=timedelta(seconds=10))
+    async def ticker(self) -> None:
+        print(self.ticker.current_iteration)

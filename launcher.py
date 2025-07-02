@@ -2,7 +2,7 @@ import asyncio
 
 import asyncpg
 import twitchio
-import uvicorn
+# import uvicorn
 
 import timetogrow
 

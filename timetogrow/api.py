@@ -57,7 +57,8 @@ class Server(twitchio.web.StarletteAdapter):
         queue: asyncio.Queue[DataPayload] = self.listeners[identifier]
 
         if self.bot:
-            yield json.dumps({"event": None, "plants": self.bot.plants_to_json()})
+            # yield json.dumps({"event": None, "plants": self.bot.plants_to_json()})
+            print("test")
         while True:
             try:
                 data: DataPayload = await queue.get()
